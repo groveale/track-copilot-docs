@@ -42,8 +42,8 @@ namespace groveale
 
                 if (!string.IsNullOrEmpty(debugCommit))
                 {
-                    var commit = await watcher.GetCommit(debugCommit);
-                    return new OkObjectResult(commit);
+                    var debugCommitDetails = await watcher.GetCommitDetails(new System.Collections.Generic.List<string> { debugCommit });
+                    return new OkObjectResult(new GitHubWatcher.CommitDetailsResponse { RecentCommits = debugCommitDetails } );
                 }
 
                 var commits = await watcher.GetCommitsInLast24HoursAsync();
@@ -52,7 +52,7 @@ namespace groveale
 
                 var responseMessage = $"There were {commits.Count} commits in the last 24 hours.";
 
-                return new OkObjectResult(commitDetails);
+                return new OkObjectResult(new GitHubWatcher.CommitDetailsResponse { RecentCommits = commitDetails } );
             }
             catch (Exception ex) {
                 return new BadRequestObjectResult(ex.Message);
