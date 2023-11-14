@@ -23,6 +23,7 @@ namespace groveale
             string repoName = req.Query["repoName"];
             string folderPath = req.Query["folderPath"];
             string debugCommit = req.Query["debugCommit"];
+            string extension = req.Query["extension"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
@@ -30,13 +31,14 @@ namespace groveale
             repoName = repoName ?? data?.repoName;
             folderPath = folderPath ?? data?.folderPath;
             debugCommit = debugCommit ?? data?.debugCommit;
+            extension = extension ?? data?.extension;
 
             if (string.IsNullOrEmpty(repoOwner) || string.IsNullOrEmpty(repoName))
             {
                 return new BadRequestObjectResult("Please pass a repoOwner, repoName on the query string or in the request body");
             }
 
-            var watcher = new GitHubWatcher(repoOwner, repoName, folderPath);
+            var watcher = new GitHubWatcher(repoOwner, repoName, folderPath, extension);
 
             try {
 

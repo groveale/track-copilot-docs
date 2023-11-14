@@ -6,46 +6,91 @@
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "Update Time: ${commit.author.date}",
-                    "wrap": true
+                    "text": "We have 2 new updates",
+                    "wrap": true,
+                    "style": "heading",
+                    "horizontalAlignment": "Center"
                 },
                 {
-                    "type": "TextBlock",
-                    "text": "Message: ${commit.message}",
-                    "wrap": true
-                },
-                {
-                    "type": "TextBlock",
-                    "text": "Updated Pages: ",
-                    "wrap": true
-                },
-                {
-                    "$data": "${files}",
+                    "$data": "${recentCommits}",
                     "type": "Container",
+                    "bleed": true,
+                    "style": "emphasis",
                     "items": [
                         {
                             "type": "ColumnSet",
                             "columns": [
-                                
                                 {
                                     "type": "Column",
-                                    "width": "stretch",
+                                    "width": "auto",
                                     "items": [
                                         {
                                             "type": "TextBlock",
-                                            "text": "${fileName}",
-                                            "wrap": true
+                                            "text": "${commit.message}",
+                                            "wrap": true,
+                                            "fontType": "Default",
+                                            "size": "Medium",
+                                            "weight": "Lighter"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "$data": "${files}",
+                            "type": "Container",
+                            "items": [
+                                {
+                                    "type": "ColumnSet",
+                                    "columns": [
+                                        {
+                                            "type": "Column",
+                                            "width": "stretch",
+                                            "items": [
+                                                {
+                                                    "type": "TextBlock",
+                                                    "text": "${fileName}",
+                                                    "wrap": true
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "Column",
+                                            "width": "auto",
+                                            "items": [
+                                                {
+                                                    "type": "TextBlock",
+                                                    "text": "${status}",
+                                                    "wrap": true,
+                                                    "horizontalAlignment": "Center",
+                                                    "style": "default",
+                                                    "fontType": "Default",
+                                                    "size": "Small",
+                                                    "weight": "Lighter",
+                                                    "height": "stretch",
+                                                    "spacing": "Medium"
+                                                }
+                                            ]
                                         }
                                     ]
                                 },
                                 {
-                                    "type": "Column",
-                                    "width": "stretch",
-                                    "items": [
+                                    "type": "ColumnSet",
+                                    "columns": [
                                         {
-                                            "type": "TextBlock",
-                                            "text": "Status: ${status}",
-                                            "wrap": true
+                                            "type": "Column",
+                                            "width": "stretch",
+                                            "items": [
+                                                {
+                                                    "type": "ActionSet",
+                                                    "actions": [
+                                                        {
+                                                            "type": "Action.OpenUrl",
+                                                            "title": "Details on Github"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         }
                                     ]
                                 }

@@ -14,12 +14,14 @@ namespace groveale
         private readonly string _repoOwner;
         private readonly string _repoName;
         private readonly string _folderPath;
+        private readonly string _extension;
 
-        public GitHubWatcher(string repoOwner, string repoName, string folderPath)
+        public GitHubWatcher(string repoOwner, string repoName, string folderPath, string extension)
         {
             _repoOwner = repoOwner;
             _repoName = repoName;
             _folderPath = folderPath;
+            _extension = extension;
 
             httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("groveale", "1.0"));
@@ -36,6 +38,17 @@ namespace groveale
             response.EnsureSuccessStatusCode();
             var commit = await response.Content.ReadAsAsync<CommitFilesItem>();
             
+            // Filter out files that don't match the extension or file path
+            if (!string.IsNullOrEmpty(_extension))
+            {
+                commit.Files.RemoveAll(f => !f.FileName.EndsWith(_extension));
+            }
+
+            if (!string.IsNullOrEmpty(_folderPath))
+            {
+                commit.Files.RemoveAll(f => !f.FileName.StartsWith(_folderPath));
+            }
+              
             return commit;
         }
 
